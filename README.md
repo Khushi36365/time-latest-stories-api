@@ -1,12 +1,12 @@
 # Time Latest Stories API
 
-This project contains a custom API service that returns the **latest 3 news stories from Time.com** by parsing the homepage using a **basic string-based approach** (no external parsing libraries), as required in the assignment.
+This project contains a custom API service that returns the **latest news stories from Time.com** by parsing the homepage using a **basic string-based approach** (no external parsing libraries), as required in the assignment.
 
 ---
 
 ## Features
 - Fetches homepage of **https://time.com**
-- Extracts **latest 3 story titles + links**
+- Extracts **latest story titles + links**
 - Uses **only core Python modules**
 - No HTML parsing libraries (BeautifulSoup, lxml, etc.)
 - JSON API response format
