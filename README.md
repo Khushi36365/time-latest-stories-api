@@ -6,7 +6,7 @@ This project contains a custom API service that returns the **latest 6 news stor
 
 ## Features
 - Fetches homepage of **https://time.com**
-- Extracts **latest 6 story titles + links**
+- Extracts **latest 3 story titles + links**
 - Uses **only core Python modules**
 - No HTML parsing libraries (BeautifulSoup, lxml, etc.)
 - JSON API response format
