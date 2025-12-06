@@ -1,26 +1,48 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.request
 import json
+import re
 
 HOST = "localhost"
 PORT = 8000
 
 def fetch_latest_stories():
     try:
-        # fetch the JSON feed that Time.com uses internally for the Latest Stories section
-        url = "https://time.com/index.json"
+        url = "https://time.com"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req) as response:
-            data = json.loads(response.read().decode("utf-8", errors="ignore"))
+            html = response.read().decode("utf-8", errors="ignore")
 
         stories = []
-        for item in data.get("latest", [])[:6]:
-            stories.append({
-                "title": item.get("headline", "").strip(),
-                "link": item.get("url", "").strip()
-            })
+        seen_links = set()
+
+        # Find all href=" /6142390/... " style article links
+        pos = 0
+        while len(stories) < 6:
+            href_pos = html.find('href="', pos)
+            if href_pos == -1:
+                break
+            href_pos += len('href="')
+            href_end = html.find('"', href_pos)
+            link = html[href_pos:href_end]
+
+            # only real Time.com articles contain "/6142..."
+            if re.search(r'/\d+/', link) and link not in seen_links:
+                full_link = link if link.startswith("http") else "https://time.com" + link
+                seen_links.add(link)
+
+                # extract title text near the link
+                title_end = html.find("</a>", href_end)
+                title_start = html.rfind(">", 0, title_end)
+                title = html[title_start+1:title_end].strip()
+
+                if title:
+                    stories.append({"title": title, "link": full_link})
+
+            pos = href_end
 
         return stories
+
     except Exception as e:
         print("ERROR:", e)
         return []
