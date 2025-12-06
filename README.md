@@ -1,6 +1,6 @@
 # Time Latest Stories API
 
-This project contains a custom API service that returns the **latest 6 news stories from Time.com** by parsing the homepage using a **basic string-based approach** (no external parsing libraries), as required in the assignment.
+This project contains a custom API service that returns the **latest 3 news stories from Time.com** by parsing the homepage using a **basic string-based approach** (no external parsing libraries), as required in the assignment.
 
 ---
 
